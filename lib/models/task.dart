@@ -1,5 +1,3 @@
-import 'package:equatable/equatable.dart';
-
 class Task {
   String title;
   bool isCompleted;
@@ -9,5 +7,4 @@ class Task {
   void toggleTask() {
     isCompleted = isCompleted == true ? false : true;
   }
-
 }
