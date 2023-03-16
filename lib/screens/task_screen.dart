@@ -6,6 +6,8 @@ import 'package:todo_flutter/screens/add_task_screen.dart';
 import 'package:todo_flutter/widgets/task_tile.dart';
 
 class TaskScreen extends StatelessWidget {
+  const TaskScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +34,7 @@ class TaskScreen extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 30.0, fontWeight: FontWeight.bold)),
                     Text(
-                        '${context.read<TaskCubit>().state.taskModel.taskCount()} Tasks',
+                        '${context.watch<TaskCubit>().state.taskModel.taskCount()} Tasks',
                         style: const TextStyle(
                             fontSize: 18.0, fontWeight: FontWeight.w300)),
                   ],
@@ -56,28 +58,11 @@ class TaskScreen extends StatelessWidget {
                               .taskModel
                               .taskCount(),
                           itemBuilder: (context, index) {
-                            return TaskTile(
-                              context
-                                  .read<TaskCubit>()
-                                  .state
-                                  .taskModel
-                                  .getTask(index)
-                                  .title,
-                              context
-                                  .read<TaskCubit>()
-                                  .state
-                                  .taskModel
-                                  .getTask(index)
-                                  .isCompleted,
-                              (value) {
-                                context
-                                    .read<TaskCubit>()
-                                    .toggleTaskStatus(index);
-                              },
-                              () {
-                                context.read<TaskCubit>().removeTask(index);
-                              },
-                            );
+                            return TaskTile((value) {
+                              context.read<TaskCubit>().toggleTaskStatus(index);
+                            }, () {
+                              context.read<TaskCubit>().removeTask(index);
+                            }, index);
                           },
                         );
                       },

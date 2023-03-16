@@ -1,32 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_flutter/bloc/task_cubit.dart';
 
 class TaskTile extends StatelessWidget {
-  final String title;
-  final bool isCompleted;
-  final void Function(bool? value) onChanged;
-  final void Function() onLongPressed;
+  final int index;
+  final ValueChanged<bool?> onCheckChangedCallbackListener;
+  final VoidCallback onDeleteCallbackListener;
 
-  TaskTile(this.title, this.isCompleted, this.onChanged, this.onLongPressed);
+  const TaskTile(this.onCheckChangedCallbackListener, this.onDeleteCallbackListener,
+      this.index,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
+    final taskModel = context.read<TaskCubit>().state.taskModel;
+
     return ListTile(
-      leading: GestureDetector(
-        onLongPress: onLongPressed,
-        child: const Icon(
-          Icons.delete_forever,
-        ),
-      ),
+      onLongPress: onDeleteCallbackListener,
       title: Text(
-        title,
+        taskModel.taskList[index].title,
         style: TextStyle(
-            decoration:
-                isCompleted ? TextDecoration.lineThrough : TextDecoration.none),
+            decoration: taskModel.taskList[index].isCompleted
+                ? TextDecoration.lineThrough
+                : TextDecoration.none),
       ),
       trailing: Checkbox(
         activeColor: Colors.orange,
-        value: isCompleted,
-        onChanged: onChanged,
+        value: taskModel.taskList[index].isCompleted,
+        onChanged: onCheckChangedCallbackListener,
       ),
     );
   }

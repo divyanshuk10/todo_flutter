@@ -4,11 +4,11 @@ import 'package:todo_flutter/bloc/task_cubit.dart';
 import 'package:todo_flutter/screens/task_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp();
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.green,
           ),
-          home: TaskScreen()),
+          home: const TaskScreen()),
     );
   }
 }
